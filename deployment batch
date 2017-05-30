@@ -1,12 +1,25 @@
+REM Add the support user account and add it to local Administrators group
+NET USER support password /ADD
+NET localgroup Administrators support /ADD
+
+REM Disable UAC
+C:\Windows\system32>reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+
 REM Map a network drive if connecting to a network resource
 net use Q: \\servername\install
 
-REM Enables a timestamp to be appended to the beginning of any logfiles created.
+REM Change the lock screen to NWC branding
+REN C:\Windows\System32\oobe\INFO\backgrounds\backgroundDefault.jpg backgroundDefault.jpg.bak
+COPY Q:\backgroundDefault.jpg C:\Windows\System32\oobe\INFO\backgrounds
+rundll32.exe user32.dll, LockWorkStation
 
+REM Enables a timestamp to be appended to the beginning of any logfiles created.
 SET HOUR=%time:~0,2%
 SET dtStamp9=%date:~-4%%date:~4,2%%date:~7,2%_0%time:~1,1%%time:~3,2%
 SET dtStamp24=%date:~-4%%date:~4,2%%date:~7,2%_%time:~0,2%%time:~3,2%
 if "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) else (SET dtStamp=%dtStamp24%)
+REM Copy the files for custom user account pictures
+ROBOCOPY /E /R:0 /W:0 /TEE /LOG:C:\Users\User\Desktop\%dtStamp%user_account_pictures.log "Q:\Tools\Deployment\ProgramData\Microsoft\User Account Pictures\Default Pictures" "C:\ProgramData\User Account Pictures\Default Pictures"
 
 REM Copy the files for custom user account pictures
 ROBOCOPY /E /R:0 /W:0 /TEE /LOG:C:\Users\User\Desktop\%dtStamp%user_account_pictures.log "Q:\ProgramData\User Account Pictures\Default Pictures" "C:\ProgramData\User Account Pictures\Default Pictures"
