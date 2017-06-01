@@ -42,3 +42,7 @@ robocopy "\\computername\LikaPlan\Tab - Greg White Approved" "\\computername\c$\
 REM Remove the Action Center from the notification area
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer /f /v HideSCAHealth /t REG_SZ /d 1
 
+REM Windows Profile Location in the Registry
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
+
+C:\Users\saquino\Downloads>CitrixReceiver.exe /silent /STORE0="NWC Citrix Apps;https://citrix.tmwcloud.com/nwcmobile/config.xml;on;Northwest Companies Citrix Farm"
