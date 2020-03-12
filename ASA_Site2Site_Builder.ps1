@@ -37,7 +37,7 @@ $peer1accesslistname = "CRYPTOMAP_$peer1siteprefix$peer2siteprefix"
 $peer2accesslistname = "CRYPTOMAP_$peer2siteprefix$peer1siteprefix"
 
 # This is the output created based on the above information gathered
-Write-Host "`nCreate Site A Configuration`n"
+Write-Host "`nCreate $peer2siteprefix Firewall Configuration`n"
 Write-Host "object network" ($peer1siteprefix + '-10.' + $peer1siteid + '.0.0_21')
 Write-Host "subnet 10.$peer1siteid.0.0 $subnetmask"
 Write-Host "description $peer1siteprefix Users VLAN"
@@ -72,15 +72,19 @@ Write-Host "tunnel-group $peer1wan ipsec-attributes"
 Write-Host "ikev1 pre-share $presharekey"
 Write-Host "exit"
 
-Write-Host "`nCreate Site B Configuration`n"
+Write-Host "`nCreate $peer1siteprefix Firewall Configuration`n"
 Write-Host "object network" ($peer2siteprefix + '-10.' + $peer2siteid + '.0.0_21')
 Write-Host "subnet 10.$peer2siteid.0.0 $subnetmask"
+Write-Host "description $peer2siteprefix Users VLAN"
 Write-Host "object network" ($peer2siteprefix + '-10.' + $peer2siteid + '.40.0_21')
 Write-Host "subnet 10.$peer2siteid.40.0 $subnetmask"
+Write-Host "description $peer2siteprefix Engineering VLAN"
 Write-Host "object network" ($peer2siteprefix + '-10.' + $peer2siteid + '.120.0_21')
 Write-Host "subnet 10.$peer2siteid.120.0 $subnetmask"
+Write-Host "description $peer2siteprefix Wireless VLAN"
 Write-Host "object network" ($peer2siteprefix + '-10.' + $peer2siteid + '.160.0_21')
 Write-Host "subnet 10.$peer2siteid.160.0 $subnetmask"
+Write-Host "description $peer2siteprefix Servers VLAN"
 Write-Host "exit"
 Write-Host "object-group network $peer2vlangroup"
 Write-Host "network object" ($peer2vlan1 + '_21')
